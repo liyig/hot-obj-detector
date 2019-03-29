@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[107]:
+# In[1]:
 
 
 from cs103 import *
@@ -55,7 +55,7 @@ def main(size: int, lon: List[int]) -> Image:
     return acc
 
 
-# In[124]:
+# In[30]:
 
 
 def create_arr(positions: List[int]):
@@ -67,13 +67,19 @@ def create_arr(positions: List[int]):
     for i in range(0, 32*24):
         if (i in positions): # hot objects
             acc.append(250)
-        elif (i+1 in positions or i-1 in positions or 
-              (i > 32 and i -32 in positions) or (i < 32 *23 and i + 32 in positions)):
+        #elif (i+1 in positions or i-1 in positions):
+        elif (i+1 in positions or i-1 in positions 
+              or (i > 32 and (i-32) in positions) or (i < 32*23 and (i+32) in positions)):
             acc.append(220)
-        elif (i+2 in positions or i-2 in positions or
-              (i > 32 and i-31 in positions) or (i < 32 * 23 and i - 31 in positions)):
+        #elif (i+2 in positions or i-2 in positions):
+        elif (i+2 in positions or i-2 in positions 
+              or (i > 32 and i-31 in positions) or (i < 32*23 and i+31 in positions)
+              or (i > 32 and i-33 in positions) or (i < 32*23 and i+33 in positions)
+              or (i > 64 and i-64 in positions) or (i < 32*22 and i+64 in positions)):
             acc.append(190)
-        elif (i+3 in positions or i-3 in positions):
+        elif (i+3 in positions or i-3 in positions 
+              or (i > 32 and i-30 in positions) or (i < 32*23 and i+30 in positions)
+              or (i > 32 and i-34 in positions) or (i < 32*23 and i+34 in positions)):
             acc.append(140)
         elif (i+4 in positions or i-4 in positions):
             acc.append(120)
@@ -86,7 +92,7 @@ def create_arr(positions: List[int]):
     return acc
 
 
-# In[128]:
+# In[32]:
 
 
 horizontal = 5
@@ -94,16 +100,20 @@ vertical_step = 4
 vertical = vertical_step*32
 
 arr_input = [16+vertical-horizontal, 48+vertical-horizontal, 79+vertical-horizontal,
-                     110+vertical-horizontal, 141+vertical-horizontal, 173+vertical-horizontal]
+                     110+vertical-horizontal, 141+vertical-horizontal]
 main(10, create_arr(arr_input))
+
+#main(20, create_arr([368]))
 
 #create_arr(arr_input)
 
-
-# In[ ]:
-
+#arr_input
 
 
+# In[11]:
+
+
+main(10, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 140, 190, 220, 250, 220, 190, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 140, 190, 220, 250, 220, 190, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 140, 190, 220, 250, 220, 190, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 140, 190, 220, 250, 220, 190, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0, 140, 190, 220, 250, 220, 190, 140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
 
 # In[ ]:
