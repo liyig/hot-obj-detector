@@ -5,8 +5,9 @@
 static int sum_array(int acc[], int start, int size);
 static int contains(int hot_object[], int position);
 
+// Checks if array hot_object contains position
 int contains(int hot_object[], int position) {
-    for (int i = 0; i < 4; i++) { // INPUT: Size of hot object
+    for (int i = 0; i < 4; i++) { // ASSUME: hot_object is of size 4
         if (hot_object[i] == position) {
             return 1;
         }
@@ -14,42 +15,39 @@ int contains(int hot_object[], int position) {
     return 0;
 }
 
-int sum_array(int acc[], int start, int size) {
+// Sums n elements stored in acc, starting from index start
+int sum_array(int acc[], int start, int n) {
     int res = 0;
-    for (int i = start; i < start + size; i++) {
+    for (int i = start; i < start + n; i++) {
         res += acc[i];
     }
     return res;
 }
 
 void main(void) {
-    // =================== MOCKING INFRARED CAMERA ===================
+    // ================ MOCKING INFRARED CAMERA ================
+    // To visualize what it looks like as an image from the infrared camera,
+    // run this on the python code: main(create_arr(<the list of int stored in the hot_object variable>))
     register int start, end;
+	// Mocking no hot object
+	// int hot_object[4] = {-1, -1, -1, -1};
+
 	// Mocking a hot object on the LEFT of the screen
 	// int hot_object[4] = {325, 326, 357, 358};
-	// start = 2290;
-	// end = 2250;
 
 	// Mocking a hot object SLIGHT on the LEFT of the screen
 	// int hot_object[4] = {330, 331, 362, 363};
-	// start = 1915;
-	// end = 1875;
 
 	// Mocking a hot object in the MIDDLE of the screen
 	int hot_object[4] = {335, 336, 367, 368};
-	start = 1540;
-	end = 1500;
 
 	// Mocking a hot object SLIGHT on the RIGHT of the screen
 	// int hot_object[4] = {340, 341, 372, 373};
-	// start = 1165;
-	// end = 1125;
 
 	// Mocking a hot object on the RIGHT of the screen
 	// int hot_object[4] = {345, 346, 377, 378};
-	// start = 790;
-	// end = 750;
 
+	int hot_object[4] = {340, 341, 372, 373};
     int acc[768];
 
 	for (int a = 0; a < 768; a++ ) {
@@ -82,7 +80,14 @@ void main(void) {
 		}
     }
 
-    // =================== ANALYZING OUTPUT OF INFRARED CAMERA ===================
+	// ============== INITIALIZING MICROPROCESSOR ==============
+	WDTCTL = WDTPW + WDTHOLD;         // Stop WDT
+	P1DIR |= BIT1 ;                    // Set P1.0
+	P1DIR |= BIT2;                    // P1.2 to output
+	P1SEL |= BIT2;                    // P1.2 to TA0.1
+	CCTL1 = OUTMOD_7;                 // CCR1 reset/set
+
+    // ========== ANALYZING DATA FROM INFRARED CAMERA ==========
     int num_row = sizeof(acc)/sizeof(acc[0])/32; // Each row has 32 ele
     int row_counter = 0; // For tracking row in iteration
     
@@ -103,47 +108,37 @@ void main(void) {
        row_counter++;
     }  
 
-	// ========== INITIALIZING MICROPROCESSOR ==========
-	WDTCTL = WDTPW + WDTHOLD;         // Stop WDT
-	P1DIR |= BIT2;                    // P1.2 to output
-	P1SEL |= BIT2;                    // P1.2 to TA0.1
-	P1DIR |= 0x79 ;                   // Set P1.0, P1.3, P1.4, P1.5, P1.6 as output
-									  //P2.3, P2.4, P2.5 are input
-	CCTL1 = OUTMOD_7;                 // CCR1 reset/set
-	CCR0 = 12000;                     // PWM Period
-	TACTL = TASSEL_2 + MC_1;          // SMCLK, up mode
-
-
-	// if (left > mid && left > right) {
-	// 	start = 2290;
-	// 	end = 2250;
-	// } else if (left == mid && left > right) {
-	// 	start = 1915;
-	// 	end = 1875;
-	// } else if (mid > left && mid > right) {
-	// 	start = 1540;
-	// 	end = 1500;
-	// } else if (right == mid && right > left) {
-	// 	start = 1165;
-	// 	end = 1125;
-	// } else if (right > mid && right > left) {
-	// 	start = 790;
-	// 	end = 750;
-	// } else {
-	// 	start = 6000;
-	// 	end = 0;
-	// }
+    // ============= COMPUTING DEGREE OF ROTATION =============
+	if (left > mid && left > right) {
+		start = 2290;
+		end = 2250;
+	} else if (left == mid && left > right) {
+		start = 1915;
+		end = 1875;
+	} else if (mid > left && mid > right) {
+		start = 1540;
+		end = 1500;
+	} else if (right == mid && right > left) {
+		start = 1165;
+		end = 1125;
+	} else if (right > mid && right > left) {
+		start = 790;
+		end = 750;
+	} else {
+		start = 6000;
+		end = 0;
+	}
 
 
 
-	P1OUT = 0x48;
+	P1OUT = 0x48; // for debugging
 	while (1) {
 		for (int i = start; i >= end; i-= 20) {
 			CCR1 = i;
 			P1OUT ^= 0xC0; // blinks when in loop
 			for (int j = 0; j < 10000; j++);	
 		}
-	P1OUT ^= 0x1;
+	P1OUT ^= 0x1; // blink for each while iteration
 	}
 	// _BIS_SR(LPM0_bits);                // Enter Low Power Mode 0
 }
