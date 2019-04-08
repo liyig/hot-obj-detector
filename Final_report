@@ -20,7 +20,7 @@ The hot object detector is made up of 3 main hardware: MSP430 microprocessor, ML
 The goal of this proejct is to create a system that can detect the location of a hot object. This system can potetially be embeded onto a robot platform which utilizes the direction that the camera is pointing to to move away from any thermal hazards (i.e. hot objects) in its proximity.
 
 \section {Setup}
-There are 3 parts in setting up the hardwares for the hot object detector: (1) between the microprocessor and the green prototype board, (2) between the infrared camera and the microprocessor, and (3) between the microprocessor and the servo motor.
+There are 3 parts in setting up the hardware for the hot object detector: (1) between the microprocessor and the green prototype board, (2) between the infrared camera and the microprocessor, and (3) between the microprocessor and the servo motor.
 
 \subsection {The connection between the microprocessor and the green prototype board}
 The green prototype board is used to power up the servo motor and the infrared camera. This means that the gound pin of the microprocessor must be connected to the ground pin of the green prototype board.
@@ -72,7 +72,7 @@ y-coordinate = round down(index / 32)
 
 Also, the air around the hot object gets warmed up by convection. Hence, through the infrared camera, the pixels around the hot object should have a high value too. Those are handled of the "else if" cases as shown in Figure 3. The values assigned in the "else if" cases (i.e. Line 10, 16, 21, 24, 27 of Figure 3) will be explained in Section 5.
 
-The code in Firgure 3 also assumes that if there's not hot object, the temperature at that region will be 0. This is defintely not the case in real life; it is designed this way for simplicity.
+The code in Firgure 3 also assumes that if there's no hot object, the temperature at that region will be 0. This is defintely not the case in real life; it is designed this way for simplicity.
 \pagebreak
 \subsection {Setting up the microprocessor}
 The code for seting up the microprocessor is shown in Figure 4. P1.0 (red LED) is used for debugging purposes, and P1.2 is used for controlling the servo motor.
